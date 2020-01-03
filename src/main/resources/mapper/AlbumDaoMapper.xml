@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.AlbumDao">
+    <!--分页-->
+    <select id="selectalbumall" resultType="Album">
+        select id,title,img,score,author,broadcaster,counts,brief,create_date,status from album limit #{qishi},#{count}
+    </select>
+    <!--总数-->
+    <select id="totalNumber" resultType="int">
+        select count(id) from album
+    </select>
+
+    <!--查询所有专辑-->
+    <select id="selecrAll" resultType="Album">
+        select * from album
+    </select>
+
+    <!--通过专辑id查询专辑信息-->
+    <select id="selectAlbumId" resultType="Album">
+      select * from album where id=#{id}
+    </select>
+</mapper>

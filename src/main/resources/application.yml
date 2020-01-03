@@ -1,0 +1,36 @@
+server:
+  port: 80       #配置端口号 80端口为默认端口访问时可以不用写
+  servlet:
+    jsp:
+      init-parameters:
+        development:  true   #开启jsp热部署
+  tomcat:
+    uri-encoding: UTF-8
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource    #配置使用的数据源为阿里提供的
+    username: root   #配置用户名
+    password: root   #用户密码
+    driver-class-name: com.mysql.jdbc.Driver   #数据库驱动类
+    url: jdbc:mysql://127.0.0.1:3306/cmfw    #连接的url
+  mvc:
+    view:
+      prefix: /  #配置视图解析器 前缀
+      suffix: .jsp    #后缀
+    date-format: yyyy-MM-dd
+  http:
+    encoding:
+      charset: utf-8    #设置编码格式
+      force: true       #是否强制执行
+      force-request: true #强制使用请求编码为utf-8
+      force-response: true #强制使用响应编码为utf-8
+  jackson:
+    date-format: yyyy-MM-dd       #设置json的时间格式
+    time-zone: GMT+8   #设置时间差
+  servlet:
+    multipart:
+      max-file-size: 1GB   #单个文件大小
+      max-request-size: 10GB  #多个文件大小
+mybatis:
+  type-aliases-package: com.baizhi.entity   #配置实体类位置
+  mapper-locations: classpath:mapper/*.xml  #配置xml文件位置扫描所有文件

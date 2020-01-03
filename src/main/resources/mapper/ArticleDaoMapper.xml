@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.ArticleDao">
+    <!--分页查询章节-->
+    <select id="selectAllArticle" resultType="Article">
+        select
+          *
+        from
+          Article
+        limit #{qishi},#{count}
+    </select>
+
+    <!--查询总条数 通过条件查询-->
+    <select id="totalNumber" resultType="Integer">
+        select count(id) from Article
+    </select>
+
+    <!--查询所有文章-->
+    <select id="selectAll" resultType="Article">
+        select * from Article
+    </select>
+
+    <!--通过上师id查询文章-->
+    <select id="selectShangId" resultType="Article">
+        select * from Article where GURU_ID =#{id}
+    </select>
+
+    <!--添加章节-->
+    <insert id="insert">
+        insert into
+          Article
+        set
+          id=#{id},
+          TITLE=#{title},
+          AUTHOR=#{author},
+          CONTENT=#{content},
+          GURU_ID=#{guru_id},
+          CREATE_DATE=#{create_date},
+          STATUS=#{status}
+    </insert>
+
+    <!--修改章节-->
+    <update id="update">
+        update
+        Article
+        <trim suffixOverrides="," prefix="set">
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="author!=null">
+                author=#{author},
+            </if>
+            <if test="content!=''">
+                content=#{content},
+            </if>
+            <if test="guru_id!=null">
+                guru_id=#{guru_id},
+            </if>
+            <if test="create_date!=null">
+                create_date=#{create_date},
+            </if>
+            <if test="status!=null">
+                status=#{status}
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <!--删除和批量删除-->
+    <delete id="delete">
+        delete from Article where id in
+        <foreach collection="array" open="(" item="ids" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+</mapper>

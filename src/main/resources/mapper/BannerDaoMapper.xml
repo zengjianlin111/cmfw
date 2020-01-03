@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.BannerDao">
+
+    <!--工具实体类映射
+    <resultMap id="BannerDto" type="com.baizhi.entity.BannerDto">
+        <result property="month" column="month"></result>
+        <result column="count" property="count"></result>
+    </resultMap>-->
+    <!--分页查询轮播图-->
+    <select id="selectBannerAll" resultType="Banner">
+        select
+          id,title,img,CREATE_DATE as createDate,status,other
+        from
+          banner
+        limit #{qishi},#{count}
+    </select>
+
+    <!--查询总条数-->
+    <select id="totalNumber" resultType="Integer">
+        select count(id) from banner
+    </select>
+
+    <!--通过id查询-->
+    <select id="selectid" resultType="Banner">
+        select
+          id,title,img,CREATE_DATE as createDate,status,other
+        from
+          banner
+        where
+          id=#{id}
+    </select>
+
+    <!--添加轮播图-->
+    <insert id="insert">
+        insert into
+          banner
+          set
+            id=#{id},
+            title=#{title},
+            img=#{img},
+            CREATE_DATE=#{createDate},
+            status=#{status},
+            other=#{other}
+    </insert>
+
+    <!--修改轮播图-->
+    <update id="update">
+        update
+        banner
+        <trim suffixOverrides="," prefix="set">
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="img!=''">
+                img=#{img},
+            </if>
+            <if test="createDate!=null">
+                CREATE_DATE=#{createDate},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+            <if test="other!=null">
+                other=#{other}
+            </if>
+        </trim>
+        where
+        id=#{id}
+    </update>
+
+    <!--删除和批量删除-->
+    <delete id="delete">
+        delete from banner where id in
+        <foreach collection="array" open="(" item="ids" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+
+    <!--查询12个月内的轮播图添加数-->
+    <select id="selectDate" resultType="Integer">
+        select count(id) from banner
+        where Date_ForMat(CREATE_DATE,"%m") = #{id}
+    </select>
+</mapper>
