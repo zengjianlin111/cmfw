@@ -1,7 +1,7 @@
 package com.baizhi.conteroller;
 
 import com.baizhi.entity.Chapter;
-import com.baizhi.services.impl.ChapterServicesImpl;
+import com.baizhi.services.ChapterServices;
 import com.baizhi.util.FileUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +25,7 @@ import java.util.Map;
 public class ChapterConteroller {
     //注入serivcel
     @Resource
-    private ChapterServicesImpl articleServices;
+    private ChapterServices articleServices;
 
     //分页查询
     @ResponseBody

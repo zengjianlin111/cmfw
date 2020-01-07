@@ -3,18 +3,18 @@ package com.baizhi.services.impl;
 import com.baizhi.dao.ArticleDao;
 import com.baizhi.entity.Article;
 import com.baizhi.services.ArticleServices;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 @Service  //声明该类是一个services
 @Transactional  //事务控制
 public class ArticleServicesImpl implements ArticleServices {
     //注入dao
-    @Resource
+    @Autowired
     private ArticleDao articleDao;
 
     @Override

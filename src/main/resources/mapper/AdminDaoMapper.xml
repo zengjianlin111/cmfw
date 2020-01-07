@@ -12,4 +12,14 @@
       and
         password = #{password}
     </select>
+
+    <!--通过用户名查询用户-->
+    <select id="selectAdminName" resultType="Admin">
+        select
+          id,username,password,other
+        from
+          admin
+        where
+          username=#{username}
+    </select>
 </mapper>

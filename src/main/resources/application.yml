@@ -31,6 +31,10 @@ spring:
     multipart:
       max-file-size: 1GB   #单个文件大小
       max-request-size: 10GB  #多个文件大小
+#  redis:
+#    database: 0     #使用的是那个数据库  默认端口是6379
+#    host: 192.168.1.203   #连接的url
+#    port: 7000  #指定端口 默认是6379
 mybatis:
   type-aliases-package: com.baizhi.entity   #配置实体类位置
   mapper-locations: classpath:mapper/*.xml  #配置xml文件位置扫描所有文件

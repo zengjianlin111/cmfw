@@ -22,4 +22,10 @@ public class AdminServicesImpl implements AdminServices {
     public Admin login(Admin admin) {
         return adminDao.login(admin);
     }
+
+    //通过用户名查询管理员是否存储
+    @Override
+    public Admin selectAdminName(String name) {
+        return adminDao.selectAdminName(name);
+    }
 }

@@ -1,14 +1,14 @@
 package com.baizhi.conteroller;
 
 import com.baizhi.entity.Article;
-import com.baizhi.services.impl.ArticleServicesImpl;
+import com.baizhi.services.ArticleServices;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -21,8 +21,8 @@ import java.util.*;
 @RequestMapping("/article")
 public class ArticleConteroller {
     //注入serivcel
-    @Resource
-    private ArticleServicesImpl articleServices;
+    @Autowired
+    private ArticleServices articleServices;
 
     //分页查询
     @ResponseBody

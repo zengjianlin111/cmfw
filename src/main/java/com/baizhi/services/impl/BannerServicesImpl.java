@@ -1,5 +1,7 @@
 package com.baizhi.services.impl;
 
+import com.baizhi.annotation.ClearCache;
+import com.baizhi.annotation.addCache;
 import com.baizhi.dao.BannerDao;
 import com.baizhi.entity.Banner;
 import com.baizhi.services.BannerServices;
@@ -20,6 +22,7 @@ public class BannerServicesImpl implements BannerServices {
 
     //分页查询
     @Override
+    @addCache  //使用redis做缓存
     @Transactional(propagation = Propagation.SUPPORTS)
     public Map<String, Object> selectBannerAll(int page, int count) {
 
@@ -55,6 +58,7 @@ public class BannerServicesImpl implements BannerServices {
 
     //添加轮播图
     @Override
+    @ClearCache   //清空redis中的数据
     public String insetBanner(Banner banner) {
         //给轮播图设置id
         String s = UUID.randomUUID().toString();
@@ -79,6 +83,7 @@ public class BannerServicesImpl implements BannerServices {
 
     //修改轮播图
     @Override
+    @ClearCache   //清空redis中的数据
     public void updateBanner(Banner banner) {
         bannerDao.update(banner);
 
@@ -92,6 +97,7 @@ public class BannerServicesImpl implements BannerServices {
 
     //删除和批量删除
     @Override
+    @ClearCache   //清空redis中的数据
     public void delete(String[] id) {
         //方法
         bannerDao.delete(id);
@@ -105,6 +111,7 @@ public class BannerServicesImpl implements BannerServices {
 
     //通过id查询轮播图
     @Override
+    @addCache //向redis中添加缓存
     @Transactional(propagation = Propagation.SUPPORTS) //不需要事务
     public Banner selectid(String id) {
         return bannerDao.selectid(id);
@@ -112,6 +119,7 @@ public class BannerServicesImpl implements BannerServices {
 
     //查询所有一年内的轮播图数据
     @Override
+    @addCache //向redis中添加缓存
     public List<Integer> selectDateBanner() {
         //创建一个集合用于存储数据
         List<Integer> list = new ArrayList<>();
@@ -128,6 +136,7 @@ public class BannerServicesImpl implements BannerServices {
 
 
     //分页查询轮播图(参数固定1-5)
+    @addCache //向redis中添加缓存
     public List<Map<String, String>> selectpage(String path) {
         //创建一个list用于存储结果
         List<Map<String, String>> list = new ArrayList<>();

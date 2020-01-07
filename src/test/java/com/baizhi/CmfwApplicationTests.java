@@ -13,12 +13,21 @@ import com.baizhi.entity.Album;
 import com.baizhi.entity.Article;
 import com.baizhi.entity.Banner;
 import com.baizhi.services.AlbumServices;
+import com.baizhi.shiro.MyRealm;
 import com.baizhi.util.FileUtil;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.mgt.DefaultSecurityManager;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.subject.Subject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,10 +52,10 @@ public class CmfwApplicationTests {
     //注入BannerDao
     @Resource
     private BannerDao bannerDao;
-
     //注入Albumservices
     @Resource
     private AlbumServices albumServices;
+
     //注入AlbumDao
     @Resource
     private AlbumDao albumDao;
@@ -341,6 +350,34 @@ public class CmfwApplicationTests {
         List<Article> articles = articleDao.selectAll();
         for (Article article : articles) {
             System.out.println("结果:" + article);
+        }
+    }
+
+
+    //shiro测试
+    @Test
+    public void shiro() {
+        //创建MyRealm
+        MyRealm myRealm = new MyRealm();
+        //创建SecurityManager对象
+        SecurityManager manager = new DefaultSecurityManager(myRealm);
+        //通过工具类设置进去
+        SecurityUtils.setSecurityManager(manager);
+        //获取主体
+        Subject subject = SecurityUtils.getSubject();
+        //创建一个token 令牌
+        AuthenticationToken token = new UsernamePasswordToken("admin", "admin");
+        try {
+            //登录测试
+            subject.login(token);
+        } catch (UnknownAccountException e) {
+            System.out.println("用户名错误");
+        } catch (IncorrectCredentialsException e) {
+            System.out.println("密码错误");
+        } finally {
+            //判断是否认证
+            boolean authenticated = subject.isAuthenticated();
+            System.out.println("是否认证成功" + authenticated);
         }
     }
 }
