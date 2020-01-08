@@ -16,18 +16,18 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-    <script src="../boot/js/jquery-2.2.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/boot/js/jquery-2.2.1.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/jquery.backstretch.min.js"></script>
     <script src="assets/js/scripts.js"></script>
-    <script src="../boot/js/jquery.validate.min.js"></script>
-    <script src="../boot/js/jquery.validate.min.js"></script>
+    <script src="${pageContext.request.contextPath}/boot/js/jquery.validate.min.js"></script>
+    <script src="${pageContext.request.contextPath}/boot/js/jquery.validate.min.js"></script>
     <script>
         $(function () {
             //点击切换验证码
             $("#captchaImage").click(function () {
                 //改变图片路径
-                $("#captchaImage").prop("src", "${pageContext.request.contextPath}/vcodeimg/img?ss=" + new Date().getTime())
+                $("#captchaImage").prop("src", "${pageContext.request.contextPath}/vcodeimg/img?ss=" + new Date().getTime());
             });
 
 
@@ -49,7 +49,7 @@
 
                     $.ajax(
                         {
-                            url: "${pageContext.request.contextPath}/admin/login",
+                            url: "${pageContext.request.contextPath}/admin/shirologin",
                             data: $("#loginForm").serialize(),
                             datatype: "json",
                             success: function (data) {
@@ -68,7 +68,7 @@
                 }
                 else {
                     //获取显示文字的font
-                    $("#fon").text("请输入必须要输入的数据不然腿打断");
+                    $("#fon").text("请输入必须要输入的数据");
                 }
 
 

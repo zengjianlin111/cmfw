@@ -1,7 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <c:set var="app" value="${pageContext.request.contextPath}"></c:set>
-<!DOCTYPE html>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<%--使用shrio标签--%>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -36,6 +37,27 @@
     </script>
 </head>
 <body>
+你有的权限<br>
+<%--判断是否有管理员身份--%>
+<shiro:hasRole name="admin">
+    <%--判断其他权限--%>
+    <shiro:hasPermission name="admin:*">
+        操作管理员<br>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="banner:*">
+        操作轮播图<br>
+    </shiro:hasPermission>
+
+    <shiro:hasPermission name="user:select:*">
+        用户查询<br>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="user:update:*">
+        用户修改<br>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="article:*">
+        文章管理<br>
+    </shiro:hasPermission>
+</shiro:hasRole>
 <!--input框组-->
 <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -54,8 +76,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">欢迎小黑</a></li>
-                <li><a href="#">退出登录<span class="glyphicon glyphicon-log-out"></span></a></li>
+                <li><a href="#">欢迎<shiro:principal></shiro:principal></a></li>
+                <li><a href="${pageContext.request.contextPath}/admin/loginout">退出登录<span
+                        class="glyphicon glyphicon-log-out"></span></a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -66,58 +89,65 @@
     <div class="row">
         <div class="col-md-3">
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingOne">
-                        <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                               aria-expanded="true" aria-controls="collapseOne">
-                                <center>用户管理</center>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel"
-                         aria-labelledby="headingOne">
-                        <!--面板-->
-                        <!--面板-->
-                        <div class="panel-body">
 
-                            <!-- button -->
-                            <a href="${pageContext.request.contextPath}/user/select"></a>
-                            <center>
-                                <%--
-                                    javascript:void(0);阻止页面提交
-                                    ('#yemian').load()跳转到页面
 
-                                --%>
-                                <a onclick="$('#yemian').load('zuoye2.jsp')"
-                                   class="btn btn-primary btn-danger btn-block" data-toggle="button"
-                                   href="javascript:void(0);" id="tiao">
-                                    用户列表
+                <%--管理员管理--%>
+                <shiro:hasPermission name="admin:*">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                   aria-expanded="true" aria-controls="collapseOne">
+                                    <center>用户管理</center>
                                 </a>
-                                <%-- <button type="button" class="btn btn-primary btn-danger"  aria-pressed="false" autocomplete="off">
-                                     用户列表
-                                 </button>--%>
-                            </center>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel"
+                             aria-labelledby="headingOne">
+                            <!--面板-->
+                            <!--面板-->
+                            <div class="panel-body">
 
+                                <!-- button -->
+                                <a href="${pageContext.request.contextPath}/user/select"></a>
+                                <center>
+                                        <%--
+                                            javascript:void(0);阻止页面提交
+                                            ('#yemian').load()跳转到页面
+
+                                        --%>
+                                    <a onclick="$('#yemian').load('zuoye2.jsp')"
+                                       class="btn btn-primary btn-danger btn-block" data-toggle="button"
+                                       href="javascript:void(0);" id="tiao">
+                                        用户列表
+                                    </a>
+                                        <%-- <button type="button" class="btn btn-primary btn-danger"  aria-pressed="false" autocomplete="off">
+                                             用户列表
+                                         </button>--%>
+                                </center>
+
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingTwo">
-                        <h4 class="panel-title">
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
-                               href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                <center>上师管理</center>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="shangshi" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                        <div class="panel-body">
-                            <%--显示的内容--%>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingTwo">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <center>上师管理</center>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="shangshi" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                            <div class="panel-body">
+                                    <%--显示的内容--%>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </shiro:hasPermission>
+
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="headingThree">
                         <h4 class="panel-title">
@@ -180,6 +210,30 @@
                         </div>
                     </div>
                 </div>
+
+
+                <%--管理员管理--%>
+                <shiro:hasPermission name="admin:*">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="admin">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                   href="#adminxian" aria-expanded="false" aria-controls="collapseTwo">
+                                    <center>管理员管理</center>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="adminxian" class="panel-collapse collapse" role="tabpanel" aria-labelledby="admin">
+                            <div class="panel-body">
+                                    <%--显示的内容--%>
+                                <center><a class="btn btn-default btn-lg"
+                                           href="javascript:$('#yemian').load('${pageContext.request.contextPath}/jsp/banner.jsp')">
+                                    管理员列表
+                                </a></center>
+                            </div>
+                        </div>
+                    </div>
+                </shiro:hasPermission>
             </div>
         </div>
 

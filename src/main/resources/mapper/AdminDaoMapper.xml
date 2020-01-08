@@ -22,4 +22,38 @@
         where
           username=#{username}
     </select>
+
+    <!--通过管理员id查询管理员的身份-->
+    <select id="selectRole" resultType="Role">
+        select r.id,r.name
+        from
+          admin as a
+        join
+          roleadmin as ra
+        on
+          a.id=ra.adminid
+        join
+            role as r
+        on
+            ra.roleid=r.id
+        where
+          a.id=#{id}
+    </select>
+
+    <!--通过角色id查询权限-->
+    <select id="selectRoleId" resultType="Permissio">
+        select p.id,p.perms
+        from
+          role as r
+        join
+          rolepermission as rp
+        on
+          r.id=rp.roleid
+        join
+          permission as p
+        on
+          p.id=rp.permsid
+        where
+          r.id=#{id}
+    </select>
 </mapper>
